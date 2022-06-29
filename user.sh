@@ -1,15 +1,17 @@
 #!/bin/bash
 
-echo -n "Please enter the username: "
 
-read user
-if id -u $user > /dev/null 2>&1; then
-        echo "This username already taken, please enter a different username"
-else
-        sudo useradd -m $user
-        echo
-        echo "The user was successfully added, here is list of all current users: "
-        awk -F: '{print $1}' /etc/passwd
+echo "Please enter a new user(s): "
 
-fi
+read -a users
+
+for user in ${users[@]}; do
+        if id -u $user > /dev/null 2>&1; then
+                echo "The username $user is already taken, please enter a different username"
+
+        else
+                sudo useradd -m "$user"
+                [ $? -eq 0 ] && echo "$user was successfully added."
+        fi
+done
 
