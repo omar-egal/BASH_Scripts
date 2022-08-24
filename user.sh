@@ -1,6 +1,4 @@
 #!/bin/bash
-
-
 echo "Please enter a new user(s): "
 
 read -a users
